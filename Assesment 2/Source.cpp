@@ -1,8 +1,11 @@
+#include <string>
 #include <iostream>
 #include <windows.h>
-#include <string.h>
+#include <algorithm>
 
 #include "Header.h"
+
+using namespace std;
 Score::Score()
 {
 		m_name = "Bob";
@@ -44,29 +47,52 @@ Scoreboard::Scoreboard()
 	m_title_col_3 = "hey";
 	std::vector<Score> m_table;
 }
-
+Scoreboard::~Scoreboard() = default;
 void Scoreboard::print()
-{
-	std::cout << "SCORES GO HERE" << std::endl;
+{//print ordered as is
+	for (int i = 0; i <= 15; i++) {
+		std::cout
+			<< m_table[i].get_name()
+			<< m_table[i].get_points()
+			<< m_table[i].get_time()
+			<< std::endl;
+}	
 }
 void Scoreboard::sort_scores(int choice)
 {
 	//Sorting algorythm goes here
+	switch(choice)
+	{
+	case 1:
+		break;
+	case 2:
+		break;
+	case 3:
+		break;
+	}
 }
-
+void Scoreboard::populate_scores()
+{
+	for (int i = 0; i <= 15; i++) {
+		m_table.push_back(Score());
+	}
+}
 
 int main() {
 	Scoreboard scoreboard;
 	int choice = 0;
-
+	
+	
 	while (1) {
-		
+		scoreboard.populate_scores();
 		if (GetAsyncKeyState(1)) { choice = 1; }
-		if (GetAsyncKeyState(2)) { choice = 2; }
-		if (GetAsyncKeyState(3)) { choice = 3; }
-
-			scoreboard.sort_scores(choice);
+  		if (GetAsyncKeyState(2)) { choice = 2; }
+ 		if (GetAsyncKeyState(3)) { choice = 3; }
+		cout << "press 1 to sort alphabetically 2 to sort by score and 3 to sort by time" << endl;
+ 			scoreboard.sort_scores(choice);
+			system("cls");
 			scoreboard.print();
+
 	}
 	return 0;
 }
