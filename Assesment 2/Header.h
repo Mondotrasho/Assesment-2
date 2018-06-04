@@ -5,10 +5,11 @@
 class Score
 {
 private:
+	
+public:
 	std::string m_name;
 	int m_points;
 	int m_time;
-public:
 	Score();
 	~Score();
 	//get
@@ -16,9 +17,9 @@ public:
 	int get_points();
 	std::string get_name();
 	//set
-	void set_time(int new_time);
-	void set_points(int new_points);
-	void set_name(std::string new_name);
+	void set_time(const int& new_time);
+	void set_points(const int& new_points);
+	void set_name(const std::string& new_name);
 	};
 
 class Scoreboard
@@ -30,6 +31,6 @@ public:
 	~Scoreboard();
 	void populate_scores(); //fill vector
 	void print(); //print current state of the m_table Vector
-	void sort_scores(int choice); //sort scores  by name alpha betically by Points numerically or time numerically
+	void sort_scores(const int& choice); //sort scores  by name alpha betically by Points numerically or time numerically
 };
 #endif
