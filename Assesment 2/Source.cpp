@@ -8,8 +8,6 @@
 #include <conio.h>
 #include "keyinput.h"
 
-
-#define space "hi";
 using namespace std;
 Score::Score()
 {
@@ -58,7 +56,7 @@ Scoreboard::Scoreboard()
 }
 std::string Scoreboard::sortMode()
 {
-	switch (m_sort_choice)
+	switch (m_selection)
 	{
 	case 1: return m_sort_col_1;
 		break;
@@ -87,7 +85,7 @@ void Scoreboard::print()
 
 		
 	}
-	//cout << sortMode() << endl;
+	cout << sortMode() << endl;
 }
 #include "Sortstuff.h"
 
@@ -114,8 +112,8 @@ void Scoreboard::populate_scores()
 		m_table.push_back(Score()); //cal constructor push into vector
 	}
 }
-int Scoreboard::getsortchoice() { return m_sort_choice; }
-void Scoreboard::setsortchoice()
+int Scoreboard::getselection() { return m_selection; }
+void Scoreboard::setselection()
 {
 
 		// best reference http://www.lagmonster.org/docs/DOS7/v-ansi-keys.html
@@ -126,29 +124,30 @@ void Scoreboard::setsortchoice()
 	m_chosen = 0;
 		while (m_chosen == 0)
 		{
-			m_key = 0;
+			m_key = getch(); //IMPORTANT BELOW VVVV
+			//getch() for characters needs to be called twice as the key codes for arrows are two part 224 to show it an arrow 75 for specif key etc
 			//keyboard input switch to cycle through sort
 			switch ((m_key = getch())) { //get char using conio header
 			case KEY_RIGHT:
 				//cout << endl << "Up" << endl;//key up
-				m_selection--;
+				m_selection++;
 				m_chosen = 1;
 				break;
 			case KEY_LEFT:
 				//cout << endl << "Down" << endl;   // key down
-				m_selection++;
+				m_selection--;
 				m_chosen = 1;
 				break;
 			}
 
 			if (m_selection < 1) {
-				m_selection = 4;
-			}
-			if (m_selection > 4) {
 				m_selection = 1;
 			}
+			if (m_selection > 3) {
+				m_selection = 3;
+			}
 			//MENU slides
-			sortMode();
+			//std::cout << sortMode() << std::endl;
 
 		}
 	}
@@ -170,8 +169,8 @@ int main() {
 		system("cls");
 		scoreboard.print();
 		//	Input
-		scoreboard.setsortchoice();
-		scoreboard.sort_scores(scoreboard.getsortchoice());
+		scoreboard.setselection();
+		scoreboard.sort_scores(scoreboard.getselection());
 
 		
 	}
