@@ -13,9 +13,9 @@ public:
 	Score();
 	~Score();
 	//get
-	int get_time();
-	int get_points();
-	std::string get_name();
+	int get_time()const;
+	int get_points()const;
+	const std::string& get_name()const;
 	//set
 	void set_time(const int& new_time);
 	void set_points(const int& new_points);
@@ -36,7 +36,7 @@ public:
 	void print(); //print current state of the m_table Vector
 	void sort_scores(const int& choice); //sort scores  by name alpha betically by Points numerically or time numerically
 	std::string sortMode();
-	int getselection();
+	int getselection()const;
 	void setselection();
 };
 #endif

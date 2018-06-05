@@ -9,15 +9,10 @@
 #include "keyinput.h"
 
 using namespace std;
-Score::Score()
-{
-	m_name = randname();//boop1;//"Bob";
-	m_points = randpoints();// 500;
-	m_time = randtime();//1000;
-}
+Score::Score():m_name(randname()),m_points(randpoints()),m_time(randtime()){}
 Score::~Score() = default;
 
-std::string Score::get_name()
+const std::string& Score::get_name() const 
 {
 	return m_name;
 };
@@ -27,7 +22,7 @@ void Score::set_name(const std::string &new_name)
 	m_name = new_name;
 };
 
-int  Score::get_points()
+int  Score::get_points() const 
 {
 	return m_points;
 }
@@ -35,7 +30,7 @@ void Score::set_points(const int &new_points)
 {
 	m_points = new_points;
 }
-int  Score::get_time()
+int  Score::get_time() const
 {
 	return m_time;
 }
@@ -51,7 +46,6 @@ Scoreboard::Scoreboard()
 	m_sort_col_1 = "^^^^--------------------";
 	m_sort_col_2 = "----------^^^^----------";
 	m_sort_col_3 = "--------------------^^^^";
-	int m_sort_choice = 1;
 	std::vector<Score> m_table;
 }
 std::string Scoreboard::sortMode()
@@ -72,17 +66,17 @@ Scoreboard::~Scoreboard() = default;
 void Scoreboard::print()
 {//print ordered as is
 
-	cout << m_title_col_1 << "----"
-		<< m_title_col_2 << "----"
+	cout << m_title_col_1 << dash4
+		<< m_title_col_2  << dash4
 		<< m_title_col_3 << endl;
 
-	for (int i = 0; i <= 15; i++) {
+	for (auto& score : m_table){
 		std::cout
-			<< m_table[i].get_name() << "-----"
-			<< m_table[i].get_points() << "-----"
-			<< m_table[i].get_time()
+			<< score.get_name()   << dash5
+			<< score.get_points() << dash5
+			<< score.get_time()
 			<< std::endl;
-
+		
 		
 	}
 	cout << sortMode() << endl;
@@ -112,7 +106,7 @@ void Scoreboard::populate_scores()
 		m_table.push_back(Score()); //cal constructor push into vector
 	}
 }
-int Scoreboard::getselection() { return m_selection; }
+int Scoreboard::getselection() const { return m_selection; }
 void Scoreboard::setselection()
 {
 

@@ -7,6 +7,7 @@
 //#############COMMON CHARS###########
 const char* INDENT = "\t";
 const char* dash4 = "----";
+const char* dash5 = "-----";
 //############################
 
 
