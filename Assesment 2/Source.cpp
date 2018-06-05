@@ -4,31 +4,12 @@
 #include <algorithm>
 #include <random>
 #include "Header.h"
+#include "Testdata.h"
+#include <conio.h>
+#include "keyinput.h"
 
 
-
-//###############TEST DATA
-static std::vector<std::string> names;
-
-
-
-std::string randname()
-{
-	return names[rand() % 14];
-}
-int randpoints()
-{
-	int val = rand() % 999;
-	return val;
-}
-int randtime()
-{
-	int  val = rand() % 300;
-	return val;
-}
-
-
-//######TEST DATA
+#define space "hi";
 using namespace std;
 Score::Score()
 {
@@ -66,36 +47,50 @@ void Score::set_time(const int &new_time)
 }
 Scoreboard::Scoreboard()
 {
-	m_title_col_1 = "hey";
-	m_title_col_2 = "hey";
-	m_title_col_3 = "hey";
+	m_title_col_1 = "USER";
+	m_title_col_2 = "SCORE";
+	m_title_col_3 = "TIME";
+	m_sort_col_1 = "^^^^--------------------";
+	m_sort_col_2 = "----------^^^^----------";
+	m_sort_col_3 = "--------------------^^^^";
+	int m_sort_choice = 1;
 	std::vector<Score> m_table;
+}
+std::string Scoreboard::sortMode()
+{
+	switch (m_sort_choice)
+	{
+	case 1: return m_sort_col_1;
+		break;
+	case 2: return m_sort_col_2;
+		break;
+	case 3: return m_sort_col_3;
+		break;
+	default:
+		return m_sort_col_1;
+	}
 }
 Scoreboard::~Scoreboard() = default;
 void Scoreboard::print()
 {//print ordered as is
- /*	for (int i = 0; i <= 15; i++) {
+
+	cout << m_title_col_1 << "----"
+		<< m_title_col_2 << "----"
+		<< m_title_col_3 << endl;
+
+	for (int i = 0; i <= 15; i++) {
 		std::cout
-			<< m_table[i].get_name()
-			<< m_table[i].get_points()
+			<< m_table[i].get_name() << "-----"
+			<< m_table[i].get_points() << "-----"
 			<< m_table[i].get_time()
 			<< std::endl;
-}	*/
+
+		
+	}
+	//cout << sortMode() << endl;
 }
-auto sortAlpha = [](Score& first, Score& last) //predicate for sort take 2 monster bits sort names
-{
-	return  first.m_name < last.m_name; //compare first name to second smallest (a) to largest (z)   hence <
-};
+#include "Sortstuff.h"
 
-auto sortPoints = [](Score& first, Score& last) //predicate for points
-{
-	return  first.m_points > last.m_points; //compare first Points to second largest (99999999) to smallest (-999999) hence >
-};
-
-auto sortTime = [](Score& first, Score& last) //predicate for time
-{
-	return  first.m_time < last.m_time; //compare first time to second smallest (-99999999) to largest  (999999) hence >
-};
 
 void Scoreboard::sort_scores(const int &choice)
 {
@@ -119,31 +114,66 @@ void Scoreboard::populate_scores()
 		m_table.push_back(Score()); //cal constructor push into vector
 	}
 }
+int Scoreboard::getsortchoice() { return m_sort_choice; }
+void Scoreboard::setsortchoice()
+{
 
-//sortVV
+		// best reference http://www.lagmonster.org/docs/DOS7/v-ansi-keys.html
+		// more http://www.cplusplus.com/forum/beginner/5136/
+		// unicode/ascii characters https://stackoverflow.com/a/16510089
+		//list of characters https://msdn.microsoft.com/en-us/library/6aw8xdf2.aspx
 
+	m_chosen = 0;
+		while (m_chosen == 0)
+		{
+			m_key = 0;
+			//keyboard input switch to cycle through sort
+			switch ((m_key = getch())) { //get char using conio header
+			case KEY_RIGHT:
+				//cout << endl << "Up" << endl;//key up
+				m_selection--;
+				m_chosen = 1;
+				break;
+			case KEY_LEFT:
+				//cout << endl << "Down" << endl;   // key down
+				m_selection++;
+				m_chosen = 1;
+				break;
+			}
 
-int main() {
-	names = { "oscar","stew","cath","ryan","bob","liam","greg","darcy","cal","dingle","roger","richard","zack","matt","timw" };
-	Scoreboard scoreboard;
-	int choice = 0;
+			if (m_selection < 1) {
+				m_selection = 4;
+			}
+			if (m_selection > 4) {
+				m_selection = 1;
+			}
+			//MENU slides
+			sortMode();
 
+		}
+	}
 	
 
+int main() {
+	names = { "Oscr","Stew","Cath","Ryan","Bobi","Liam","Greg","Darc","Caly","Ding","Gudg","Rich","Zack","Matt","Timm" }; //names to pick from
+	Scoreboard scoreboard; //new scoreboard
+	//int choice = 1; 
+	scoreboard.populate_scores();
+
+
+
 	while (1) {
-		scoreboard.populate_scores();
-	//	if (GetAsyncKeyState(1)) { choice = 1; }
-	//	if (GetAsyncKeyState(2)) { choice = 2; }
-	//	if (GetAsyncKeyState(3)) { choice = 3; }
-	//	cout << "press 1 to sort alphabetically 2 to sort by score and 3 to sort by time" << endl;
-	//	scoreboard.sort_scores(choice);
-		system("cls");
-	//	scoreboard.print();
-		scoreboard.print();
-		scoreboard.sort_scores(2);
+	
+	
+	
+		//	print
 		system("cls");
 		scoreboard.print();
-		system("pause");
+		//	Input
+		scoreboard.setsortchoice();
+		scoreboard.sort_scores(scoreboard.getsortchoice());
+
+		
 	}
 
 	return 0;
