@@ -5,6 +5,10 @@
 #include <vector>
 #include "Score.h"
 
+//holds a collection of players scores
+//sorts them
+//and prints them
+
 class Scoreboard
 {
 private:

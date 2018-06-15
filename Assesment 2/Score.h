@@ -2,6 +2,11 @@
 #define _SCORE_H_
 #include <vector>
 
+// a players score
+// stores the name of the player
+//the amount of points they collected
+// and the time it took them to complete the game
+
 class Score
 {
 private:
